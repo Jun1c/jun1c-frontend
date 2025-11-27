@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Youtube, Search, ChevronRight, Play, TrendingUp, Gamepad2, Tv, ThumbsUp, MessageCircle, LogIn, LogOut } from 'lucide-react';
+import { Menu, X, Youtube, Search, ChevronRight, Play, Gamepad2, ThumbsUp, MessageCircle, LogIn, LogOut } from 'lucide-react';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
 
@@ -224,10 +224,10 @@ export default function Jun1CGaming() {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-6">
-              <a href="#" className="text-gray-300 hover:text-red-500 transition">Notícias</a>
-              <a href="#" className="text-gray-300 hover:text-red-500 transition">Reviews</a>
-              <a href="#" className="text-gray-300 hover:text-red-500 transition">Vídeos</a>
-              <a href="#" className="text-gray-300 hover:text-red-500 transition">Guias</a>
+              <button className="text-gray-300 hover:text-red-500 transition">Notícias</button>
+              <button className="text-gray-300 hover:text-red-500 transition">Reviews</button>
+              <button className="text-gray-300 hover:text-red-500 transition">Vídeos</button>
+              <button className="text-gray-300 hover:text-red-500 transition">Guias</button>
             </nav>
 
             {/* User Actions */}
@@ -271,10 +271,10 @@ export default function Jun1CGaming() {
           {/* Mobile Menu */}
           {isMenuOpen && (
             <nav className="md:hidden mt-4 pb-4 space-y-2">
-              <a href="#" className="block text-gray-300 hover:text-red-500 py-2">Notícias</a>
-              <a href="#" className="block text-gray-300 hover:text-red-500 py-2">Reviews</a>
-              <a href="#" className="block text-gray-300 hover:text-red-500 py-2">Vídeos</a>
-              <a href="#" className="block text-gray-300 hover:text-red-500 py-2">Guias</a>
+              <button className="block text-gray-300 hover:text-red-500 py-2 w-full text-left">Notícias</button>
+              <button className="block text-gray-300 hover:text-red-500 py-2 w-full text-left">Reviews</button>
+              <button className="block text-gray-300 hover:text-red-500 py-2 w-full text-left">Vídeos</button>
+              <button className="block text-gray-300 hover:text-red-500 py-2 w-full text-left">Guias</button>
             </nav>
           )}
         </div>
@@ -363,10 +363,10 @@ export default function Jun1CGaming() {
               <Youtube className="w-6 h-6 text-red-600" />
               <span>Últimos Vídeos</span>
             </h2>
-            <a href="#" className="text-red-400 hover:text-red-300 flex items-center space-x-1">
+            <button className="text-red-400 hover:text-red-300 flex items-center space-x-1">
               <span>Ver todos</span>
               <ChevronRight className="w-4 h-4" />
-            </a>
+            </button>
           </div>
           
           <div className="grid md:grid-cols-3 gap-4">
