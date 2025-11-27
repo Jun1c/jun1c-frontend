@@ -3,13 +3,98 @@ import { Menu, X, Youtube, Search, ChevronRight, Play, Gamepad2, ThumbsUp, Messa
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
 
+// COMPONENTE DE MODAL - MOVIDO PARA FORA PARA EVITAR RE-CRIAÇÃO
+const AuthModal = ({
+  showAuthModal,
+  setShowAuthModal,
+  authMode,
+  setAuthMode,
+  authName,
+  setAuthName,
+  authEmail,
+  setAuthEmail,
+  authPassword,
+  setAuthPassword,
+  handleAuth
+}) => {
+  if (!showAuthModal) return null;
+
+  return (
+    <div
+      className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
+      onClick={() => setShowAuthModal(false)}
+    >
+      <div
+        className="bg-gray-800 rounded-xl p-8 max-w-md w-full"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-white">
+            {authMode === 'login' ? 'Entrar' : 'Criar Conta'}
+          </h2>
+          <button onClick={() => setShowAuthModal(false)} className="text-white hover:text-red-400">
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+
+        <div className="space-y-4">
+          {authMode === 'register' && (
+            <input
+              type="text"
+              placeholder="Nome completo"
+              value={authName}
+              onChange={(e) => setAuthName(e.target.value)}
+              className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-500"
+              autoComplete="name"
+            />
+          )}
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={authEmail}
+            onChange={(e) => setAuthEmail(e.target.value)}
+            className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-500"
+            autoComplete="email"
+          />
+
+          <input
+            type="password"
+            placeholder="Senha"
+            value={authPassword}
+            onChange={(e) => setAuthPassword(e.target.value)}
+            className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-500"
+            autoComplete="current-password"
+          />
+
+          <button
+            onClick={handleAuth}
+            className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold transition"
+          >
+            {authMode === 'login' ? 'Entrar' : 'Criar Conta'}
+          </button>
+        </div>
+
+        <div className="mt-4 text-center">
+          <button
+            onClick={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}
+            className="text-sm text-red-400 hover:text-red-300"
+          >
+            {authMode === 'login' ? 'Não tem conta? Cadastre-se' : 'Já tem conta? Entre'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function Jun1CGaming() {
   // Estados principais
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState('login');
-  
+
   // Estados do formulário de autenticação - SEPARADOS (CORREÇÃO PRINCIPAL)
   const [authName, setAuthName] = useState('');
   const [authEmail, setAuthEmail] = useState('');
@@ -134,79 +219,6 @@ export default function Jun1CGaming() {
       console.error('Erro ao comentar:', error);
     }
   };
-
-  // COMPONENTE DE MODAL - MEMOIZADO E CORRIGIDO
-  const AuthModal = React.memo(() => {
-    if (!showAuthModal) return null;
-
-    return (
-      <div 
-        className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
-        onClick={() => setShowAuthModal(false)}
-      >
-        <div 
-          className="bg-gray-800 rounded-xl p-8 max-w-md w-full" 
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-white">
-              {authMode === 'login' ? 'Entrar' : 'Criar Conta'}
-            </h2>
-            <button onClick={() => setShowAuthModal(false)} className="text-white hover:text-red-400">
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-          
-          <div className="space-y-4">
-            {authMode === 'register' && (
-              <input
-                type="text"
-                placeholder="Nome completo"
-                value={authName}
-                onChange={(e) => setAuthName(e.target.value)}
-                className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-500"
-                autoComplete="name"
-              />
-            )}
-            
-            <input
-              type="email"
-              placeholder="Email"
-              value={authEmail}
-              onChange={(e) => setAuthEmail(e.target.value)}
-              className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-500"
-              autoComplete="email"
-            />
-            
-            <input
-              type="password"
-              placeholder="Senha"
-              value={authPassword}
-              onChange={(e) => setAuthPassword(e.target.value)}
-              className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-500"
-              autoComplete="current-password"
-            />
-            
-            <button
-              onClick={handleAuth}
-              className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-semibold transition"
-            >
-              {authMode === 'login' ? 'Entrar' : 'Criar Conta'}
-            </button>
-          </div>
-          
-          <div className="mt-4 text-center">
-            <button
-              onClick={() => setAuthMode(authMode === 'login' ? 'register' : 'login')}
-              className="text-sm text-red-400 hover:text-red-300"
-            >
-              {authMode === 'login' ? 'Não tem conta? Cadastre-se' : 'Já tem conta? Entre'}
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
@@ -388,7 +400,19 @@ export default function Jun1CGaming() {
       </main>
 
       {/* Auth Modal */}
-      <AuthModal />
+      <AuthModal
+        showAuthModal={showAuthModal}
+        setShowAuthModal={setShowAuthModal}
+        authMode={authMode}
+        setAuthMode={setAuthMode}
+        authName={authName}
+        setAuthName={setAuthName}
+        authEmail={authEmail}
+        setAuthEmail={setAuthEmail}
+        authPassword={authPassword}
+        setAuthPassword={setAuthPassword}
+        handleAuth={handleAuth}
+      />
 
       {/* Comments Modal */}
       {selectedArticle && (
