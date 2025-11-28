@@ -3,8 +3,8 @@ import { Menu, X, Youtube, Search, ChevronRight, Play, Gamepad2, ThumbsUp, Messa
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
 
-// COMPONENTE DE MODAL - MOVIDO PARA FORA PARA EVITAR RE-CRIAÇÃO
-const AuthModal = ({
+// COMPONENTE DE MODAL - MOVIDO PARA FORA E MEMOIZADO PARA EVITAR RE-CRIAÇÃO
+const AuthModal = React.memo(({
   showAuthModal,
   setShowAuthModal,
   authMode,
@@ -86,7 +86,7 @@ const AuthModal = ({
       </div>
     </div>
   );
-};
+});
 
 export default function Jun1CGaming() {
   // Estados principais
@@ -132,7 +132,7 @@ export default function Jun1CGaming() {
   const handleAuth = async () => {
     try {
       const endpoint = authMode === 'login' ? '/auth/login' : '/auth/register';
-      const body = authMode === 'login' 
+      const body = authMode === 'login'
         ? { email: authEmail, password: authPassword }
         : { name: authName, email: authEmail, password: authPassword };
 
